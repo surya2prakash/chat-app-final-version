@@ -9,8 +9,15 @@ const postSchema = new mongoose.Schema({
         required:true
       },
       imageUrl:{
+        type:String
+        
+      },
+      imagePublicUrl:{
+         type:String
+      },
+      caption:{
         type:String,
-        required:[true,"image url required"]
+        maxLength:50
       },
       likeCount:{
         type:Number,
