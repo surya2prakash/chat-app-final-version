@@ -23,7 +23,15 @@ const{getAllPost} = require("../Controller/instaPostController/postRead");
 
 //like and Unlike --->
 
-const {likePostAndUnlike} = require("../Controller/LikeController/likeCreate");
+const {likePost,unlikePost,getLikeandUnlike} = require("../Controller/LikeController/likeCreate");
+
+//comments ----->
+
+const{getAllComments} = require("../Controller/CommentController/commentRead");
+
+const{commentCreate} = require("../Controller/CommentController/commentCreate");
+
+const{deleteComment} = require("../Controller/CommentController/commentDelete");
 
 route.post("/sign",signUp);
 route.post("/login",logIn);
@@ -31,6 +39,16 @@ route.post("/login",logIn);
 route.post("/postcreate",authorization,postCreate);
 route.get("/myposts",authorization,getAllPost);
 
-route.post("/:id",authorization,likePostAndUnlike);
+//like ***********
+route.get("/getlikes/:id",authorization,getLikeandUnlike);
+route.post("/like/:id",authorization,likePost);
+
+route.delete("/unlike/:id",authorization,unlikePost)
+
+//comments***********
+route.get("/comments/:id",authorization,getAllComments);
+route.post("/sendComment/:id",authorization,commentCreate);
+route.delete("/deletecomment/:id",authorization,deleteComment)
+
 
 module.exports = route;
