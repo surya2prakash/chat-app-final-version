@@ -1,20 +1,19 @@
-  import React, { useState } from 'react'
+  import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import styles from './Navbar.module.css'
+
 import { toast } from 'react-toastify';
+import SearchBar from './OtherComponents/SearchBar';
   
   export default function Navbar() {
 
 
    const navigate = useNavigate();
-   const [inputValue,setInputValue] = useState("");
-
-   function changeHandler(event){
-         setInputValue(event.target.value);
-   }
+   
     return (
-    <nav>
-      <div>
+    <nav className={styles.navmain}>
+      <div className={styles.navContainer}>
            {/* instagram logo */}
           <div>
            <Link to="#" >
@@ -23,43 +22,38 @@ import { toast } from 'react-toastify';
             </div>
 
              <div>
-              <span>
-                  <i className="fas fa-search"></i>
-              </span>
-              <input type='text' placeholder='search ' onChange={changeHandler} value={inputValue} />
+               <SearchBar/>
              </div>
 
-             <div>
+             <div className={styles.otherIcons}>
                  <Link to='/profile'>
                     <i className="fas fa-home text-2xl text-black"></i>
                  </Link>
-                 <Link to='/chat'>
+                 <Link to='chat'>
                      <i className="fab fa-facebook-messenger text-2xl text-black"></i>
                  </Link>
-                 <Link to='/post'>
+                 <Link to='post'>
                          <i className="far fa-plus-square text-2xl text-black"></i>
                  </Link>
-                 <Link to='/explore'>
+                 <Link to='explore'>
                     <i className="far fa-compass text-2xl text-black"></i>
                  </Link>
-                 <Link to='/notification'>
+                 <Link to='notification'>
                        <i className="far fa-heart text-2xl text-black"></i>
                  </Link>
            
            {/* profile --------> */}
-          <div>
+          <div className={styles.myProfile}>
                <img src='' alt='no' />
-                <Link to='/user'>
+                <Link to='myprofile'>
                    <i className="fas fa-user-circle w-5"></i> Profile
                 </Link>
+                   
+                
 
-                <Link to='/save'>
-                     <i className="far fa-bookmark w-5"></i> Saved
-                </Link>
-
-                <Link to='/setting'>
+                {/* <Link to='setting'>
                    <i className="fas fa-cog w-5"></i> Settings
-                </Link>
+                </Link> */}
 
                 <div></div>
                 <button onClick={()=>{localStorage.removeItem("token")
