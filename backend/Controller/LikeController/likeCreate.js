@@ -1,7 +1,7 @@
 
 const Post = require("../../Model/postModel");
 
-const Like = require("../../Model/likeModel");
+
 
 
 
@@ -46,7 +46,7 @@ exports.likePost = async(req,res) =>{
 
           //check kro kahin user ne es post ko already like to nhi kiya hai --->
 
-          const isAlreadyLike = await Like.findOne({postId,likePostUserId:userId});
+          const isAlreadyLike = await Post.findone({_id:postId,likeId:userId});
 
           if(isAlreadyLike)
           {
@@ -57,19 +57,13 @@ exports.likePost = async(req,res) =>{
              })
           }
 
-          //ager post mil gai hai aur user ne like nhi kiya hai to like kro 
-
-          const likePost = new Like({
-              postId,
-              likePostUserId:userId
-          })
-
-          await likePost.save();
+            
 
           //ablike count ko increase karna hoga
 
           const postlikeCount = await Post.findByIdAndUpdate(postId,{
-            $inc:{likeCount:1}
+            $inc:{likeCount:1},
+            $push:{likeId:userId}
           },{new:true});
 
         
@@ -126,7 +120,7 @@ exports.unlikePost = async(req,res)=>{
             });
           };
 
-          const alreadyUnlike =  await Like.findOne({postId,likePostUserId:userId});
+          const alreadyUnlike =  await Post.findOne({_id:postId,likeId:userId});
 
           if(!alreadyUnlike)
           {
@@ -136,10 +130,11 @@ exports.unlikePost = async(req,res)=>{
              })
           };
 
-          await Like.findByIdAndDelete(alreadyUnlike._id);
+         
 
           const postunlikeCount = await Post.findByIdAndUpdate(postId,{
-            $inc:{likeCount:-1}
+            $inc:{likeCount:-1},
+            $pull:{likeId:userId}
           },{new:true});
 
           
