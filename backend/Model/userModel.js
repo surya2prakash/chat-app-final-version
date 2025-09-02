@@ -1,19 +1,19 @@
 const mongoose = require("mongoose");
+const { trim } = require("validator");
 
 
 const userSchema = new mongoose.Schema({
-     firstName:{
+     fullName:{
         type:String,
         required:[true,"Name is required"],
-        maxLength:10,
+       
         trim:true
      },
-     lastName:{
-        type:String,
-        required:[true,"Name is required"],
-        maxlength:18,
-        trim:true
-
+     userName:{
+       type:String,
+       required:[true,"User name required"],
+       maxLength:12,
+       trim:true
      },
      email:{
         type:String,
@@ -22,6 +22,12 @@ const userSchema = new mongoose.Schema({
         trim:true,
         lowercase:true,
      },
+   //   accountType:{
+   //      type:String,
+   //      require:[true,"Account Type required"],
+   //      enum:["Public","Private"],
+        
+   //   },
      gender:{
           type:String,
           required:true,

@@ -8,7 +8,7 @@ const followerSchema = new mongoose.Schema({
         },
        followerId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
+        ref:"Profile",
         required:true
        },
 

@@ -10,7 +10,7 @@
         },
        followingId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
+        ref:"Profile",
         required:true,
 
        },

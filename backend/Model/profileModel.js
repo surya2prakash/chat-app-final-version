@@ -8,7 +8,14 @@ const profileSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
      },
-       
+     fullName:{
+        type:String,
+        required:true
+     },
+     userName:{
+        type:String,
+        required:true
+     },       
      
     totalFollowers:{
           type:Number,

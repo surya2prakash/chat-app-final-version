@@ -29,7 +29,7 @@ const postSchema = new mongoose.Schema({
       },
       likeId:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Like",
+        ref:"User",
         
       }],
       commentId:[{
