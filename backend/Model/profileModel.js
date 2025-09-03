@@ -1,4 +1,5 @@
 
+
 const mongoose = require("mongoose");
 
 
@@ -15,7 +16,16 @@ const profileSchema = new mongoose.Schema({
      userName:{
         type:String,
         required:true
-     },       
+     },
+      profileImage:{
+       
+        secure:{
+         type:String
+        },
+        public:{
+          type:String
+        }
+      },      
      
     totalFollowers:{
           type:Number,
