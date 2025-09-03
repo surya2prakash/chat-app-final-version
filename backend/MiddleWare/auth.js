@@ -9,8 +9,8 @@ exports.authorization = async(req,res,next)=>{
     try{
        
         //yee ek object hota hai --->
-        const authHeader = req.headers["authorization"]   
-
+        const authHeader = req.headers["authorization"] 
+       
         if(!authHeader)
         {
             return res.status(404).json({
