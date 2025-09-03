@@ -22,6 +22,8 @@ const{getAllPost} = require("../Controller/instaPostController/postRead");
 
 const{postsforfeed} = require("../Controller/instaPostController/postRead");
 
+const {explorePosts} = require("../Controller/instaPostController/postRead");
+
 
 //like and Unlike --->
 
@@ -45,6 +47,7 @@ const {unFollow} = require("../Controller/FollowingAndFollowerController/followi
 
 const {profile} = require("../Controller/userController/profile");
 const {singleProfile} = require("../Controller/userController/singleUser");
+const {profileUpload} = require("../Controller/userController/profileImage");
 
 route.post("/sign",signUp);
 route.post("/login",logIn);
@@ -53,6 +56,10 @@ route.post("/login",logIn);
 route.post("/postcreate",authorization,postCreate);
 route.get("/myposts",authorization,getAllPost);
 route.get("/feed",authorization,postsforfeed);
+route.get("/explore/posts",authorization,explorePosts);
+
+//profileImage **********
+route.post("/profileImage",authorization,profileUpload);
 
 //like ***********
 route.get("/getlikes/:id",authorization,getLikeandUnlike);
