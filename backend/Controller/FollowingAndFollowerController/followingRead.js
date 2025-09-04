@@ -1,5 +1,6 @@
 
 const Following = require("../../Model/followingModel");
+const Profile = require("../../Model/profileModel");
 
 exports.getfollowing = async(req,res) =>{
       try{
@@ -7,8 +8,17 @@ exports.getfollowing = async(req,res) =>{
         //userId 
 
         const userId = req.user.id;
+             
+        const isProfile = await Profile.findOne({userId:userId});
 
-         const isFollowing = await Following.find({userId}); 
+          if(!isProfile){
+             return res.status(404).json({
+               success:false,
+               message:"user not found"
+             })
+          }
+
+         const isFollowing = await Following.find({userId:isProfile._id}); 
 
          if(!isFollowing)
          {

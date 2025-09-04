@@ -1,78 +1,78 @@
  
- //unfollow krna hai
-  const mongoose = require("mongoose");
+
  const Following = require("../../Model/followingModel");
 
  const Follower = require("../../Model/followerModel");
  
-
+const Profile = require("../../Model/profileModel");
 exports.unFollow = async(req,res) =>{
       try{
 
        //do jgh delete karna ess liye me mongodb ka transaction use krunga  --->
-           const session = await mongoose.startSession();
-
-            session.startTransaction();
+          
         //userId --->
 
         const userId = req.user.id;
+        console.log(userId)
 
         // jisko unfollow krna hai uski Id ---->
 
-        const wantToUnfollow = req.params.id;
-
+        const wantToUnfollow = req.query.id;
+          console.log(wantToUnfollow);
         if(!wantToUnfollow)
         {  
-            //ager nhi hai to transion htao ->session ko bhi end kro
-           await session.abortTransaction();
-            session.endSession();
+           
             return res.status(404).json({
                 success:false,
                 message:"FollowerId not Found"
             });
         };
 
-        //user khud ko unfollow bhi nhi akr sakta  --->
 
-        if(userId === wantToUnfollow)
-        {
-
-           await session.abortTransaction();
-              session.endSession();
-            return res.status(400).json({
+         if(userId.toString() ===  wantToUnfollow.toString() )
+        {    
+           
+            return res.status(409).json({
                 success:false,
                 message:"can't unfollow Your self."
             })
         }
+        //user khud ko unfollow bhi nhi akr sakta  --->
+     const isProfile = await Profile.findOne({userId:userId});
+            
+        
+       
+       
 
           
         //check kro follow bhi akrte ho yaa nhi --->
 
-        const isFollow = await Following.findOne({userId,followingId:wantToUnfollow},null,{session});
-
+        const isFollow = await Following.findOne({userId:isProfile._id,followingId:wantToUnfollow});
+        
         if(!isFollow)
         {
-           await session.abortTransaction();
-            session.endSession();
+          
             return res.status(409).json({
                 success:false,
                 message:"Currently You are Not Following this User."
             })
         };
 
-       
+           
 
-          
+          await Following.findByIdAndDelete(isFollow._id);
         //pahle follower se remove kro 
-           await Follower.findOneAndDelete({userId:wantToUnfollow,followerId:userId},{session});
+           await Follower.findOneAndDelete({userId:wantToUnfollow,followerId:isProfile._id});
 
         //ager follow kar rhe ho to usko htana do --->
 
-          await Following.findByIdAndDelete(isFollow._id,{session});
+          
 
-          await session.commitTransaction();
+          //jisme follow kiya uska following decrease hoga -->
+                    await Profile.findOneAndUpdate({userId:userId,totalfollowing:{$gt:0}},{$inc:{totalfollowing:-1}},{new:true});
+                    //jisko follow kiye uska follower decrease ga
+                    await Profile.findOneAndUpdate({userId:wantToUnfollow,totalFollowers:{$gt:0}},{$inc:{totalFollowers:-1}},{new:true});
 
-          session.endSession();
 
         return res.status(200).json({
             success:true,
@@ -81,8 +81,7 @@ exports.unFollow = async(req,res) =>{
 
       }catch(err){
 
-        await session.abortTransaction();
-          session.endSession();
+        
         console.error(err.message);
           
           
