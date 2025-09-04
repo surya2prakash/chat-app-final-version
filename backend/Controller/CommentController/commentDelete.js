@@ -9,40 +9,37 @@ exports.deleteComment = async(req,res) =>{
           
         const userId = req.user.id;
 
-        const postId = req.params.id;
+        
+        const commentId = req.params.id;
 
-        if(!postId)
+        console.log(commentId);
+
+        if(!commentId)
         {
             return res.status(400).json({
                 success:false,
-                message:"Post Id required"
+                message:"comment Id required"
             });
         };
 
         //post find karo --->
 
-        const isPost = await Post.findById(postId);
-        if(!isPost)
+        const isComment = await Comment.findById(commentId);
+        if(!isComment)
         {
             return res.status(404).json({
                 success:false,
-                message:"Post Not Found."
+                message:"Comment Not Found."
             });
         };
 
         //check karo 
 
-        const commentDelete = await Comment.findOneAndDelete({postId,commentbyUserId:userId});
+        const commentDelete = await Comment.findOneAndDelete({_id:commentId,commentbyUserId:userId});
 
-        if(!commentDelete)
-        {
-            return res.status(404).json({
-                success:false,
-                message:"No comment Found"
-            });
-        };
+        
 
-        await Post.findByIdAndUpdate(postId,{$inc:{commentCount:-1}},{new:true});
+       await Post.findByIdAndUpdate(isComment.postId,{$inc:{commentCount:-1}},{new:true});
 
         return res.status(200).json({
             success:true,

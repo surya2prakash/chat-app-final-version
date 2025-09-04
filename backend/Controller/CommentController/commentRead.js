@@ -8,6 +8,7 @@ exports.getAllComments = async(req,res) =>{
       try{
 
           const postId = req.params.id;
+          
 
           if(!postId)
           {
@@ -17,7 +18,7 @@ exports.getAllComments = async(req,res) =>{
             });
           };
 
-          const allcomments = await Post.findById(postId).populate("commentId").exec();
+          const allcomments = await Comment.find({postId:postId});
 
           if(!allcomments)
           {
@@ -26,6 +27,7 @@ exports.getAllComments = async(req,res) =>{
                 message:"No Comment Found."
             });
           };
+         
 
           return res.status(200).json({
              success:true,

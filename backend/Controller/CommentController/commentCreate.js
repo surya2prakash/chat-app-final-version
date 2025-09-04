@@ -11,6 +11,8 @@ exports.commentCreate = async(req,res) =>{
            const postId = req.params.id;
            const userId = req.user.id;
 
+           console.log(comment,postId);
+
            if(!comment)
            {
             return res.status(400).json({
