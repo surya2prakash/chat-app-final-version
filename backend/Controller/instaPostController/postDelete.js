@@ -3,6 +3,7 @@ const Post = require("../../Model/postModel");
 
 const cloudinary = require("cloudinary").v2 
 
+const Profile = require("../../Model/profileModel");
 
 exports.deleteSingle = async(req,res) =>{
     try{
@@ -46,7 +47,8 @@ exports.deleteSingle = async(req,res) =>{
          //eske baad ab post ko delete kar do --->
 
          await Post.findByIdAndDelete(postId);
-
+  
+          await Profile.findOneAndUpdate({userId:userId},{$inc:{totalPost:-1},$max:{totalPost:0},updatedAt:new Date(Date.now())},{new:true});
 
          return res.status(200).json({
             success:true,
@@ -111,6 +113,8 @@ exports.deleteAll = async(req,res)=>{
         })
     }
 
+      await Profile.findOneAndUpdate({userId:userId},{$inc:{totalPost:-1},$max:{totalPost:0},updatedAt:new Date(Date.now())},{new:true});
+    
     return res.status(200).json({
         success:true,
         message:"All Posts Deleted.."

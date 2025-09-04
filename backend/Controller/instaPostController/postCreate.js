@@ -4,6 +4,8 @@ const Post = require("../../Model/postModel");
 
 const cloudinary = require("cloudinary").v2
 
+const Profile = require("../../Model/profileModel");
+
 
 
 function isSupported(fileType,supportType)
@@ -36,8 +38,13 @@ async function uploadFile(imageFile,folder,resource_type="auto",quality)
 
 
 exports.postCreate = async(req,res)=>{
+  
+ 
+
     try{
            
+           
+        
         //jiska account hai uski Id
          const userId = req.user.id;
           
@@ -46,7 +53,8 @@ exports.postCreate = async(req,res)=>{
 
          
           //image le aao
-         const imageFile = req.files.imageFile;
+         const imageFile = req.files.file;
+         
 
          
 
@@ -105,6 +113,10 @@ exports.postCreate = async(req,res)=>{
 
          await newPost.save();
 
+         await Profile.findOneAndUpdate({userId:userId},{$inc:{totalPost:1},updatedAt:new Date(Date.now())});
+
+         
+
          return res.status(200).json({
             success:true,
             message:"Post Created."
@@ -112,6 +124,8 @@ exports.postCreate = async(req,res)=>{
 
 
     }catch(err){
+
+        
         console.error(err.message);
         return res.status(500).json({
             success:false,
