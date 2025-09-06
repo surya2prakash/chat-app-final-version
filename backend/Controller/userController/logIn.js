@@ -8,11 +8,13 @@ const jwt = require("jsonwebtoken");
 
 require("dotenv").config();
 
+const Profile = require("../../Model/profileModel");
+
 exports.logIn =async(req,res)=>{
     try{
 
         const{email,password} = req.body;
-
+          
         //email nhi mila to -->
         if(!email)
         {
@@ -81,7 +83,8 @@ exports.logIn =async(req,res)=>{
       //payload bna lo -->
        const payload ={
            id:checkingUser._id,
-           email:checkingUser.email
+           email:checkingUser.email,
+           name:checkingUser.fullName
        }
            
        //token create kro ---> payload ,secret key ,options
@@ -89,12 +92,24 @@ exports.logIn =async(req,res)=>{
 
       //token ko header me send karna hai -->
        
-      res.header("Authorization",`Bearer ${token}`);
+          //yhin profile bna lo -->
+
+       const isProfile = await Profile.findOne({userId:checkingUser._id});
+
+       if(!isProfile)
+       {
+            await Profile.create({
+               userId:checkingUser._id,
+               fullName:checkingUser.fullName,
+               userName:checkingUser.userName,
+            })
+       };
             
       //sab sahi hai to res send kro  ---->
        return res.status(200).json({
            success:true,
            message:"User Login.",
+           token:token
           
        })
 
