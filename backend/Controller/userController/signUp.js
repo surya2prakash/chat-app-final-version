@@ -6,21 +6,24 @@ const bcrypt = require("bcrypt");
 const User = require("../../Model/userModel");
 
 
+
+
 exports.signUp=async(req,res)=>{
      try{
 
 
 
-      const {firstName,lastName,email,password,confirmPassword,gender} = req.body;
+      const {fullName,email,password,userName,gender} = req.body;
+      
             
-          if(!firstName || !lastName)
+          if(!fullName || !userName)
           {
             return res.status(400).json({
                 success:false,
                 message:"Enter Name .."
             });
           };
-
+       
           if(!email)
           {
             return res.status(400).json({
@@ -43,21 +46,15 @@ exports.signUp=async(req,res)=>{
                 });
              };
 
-          if(!password || !confirmPassword)
+          if(!password)
           {
              return res.status(400).json({
                 success:false,
                 message:"Password required.."
              });
           }
-           if(password !== confirmPassword)
-                   {
-                     return res.status(400).json({
-                        success:false,
-                        message:"Password Not Match"
-                     });
-                   }
-                    if(password.length < 8 || confirmPassword.length < 8)
+           
+                    if(password.length < 8 )
                    {
                       return res.status(400).json({
                         success:false,
@@ -106,8 +103,8 @@ exports.signUp=async(req,res)=>{
          };
         
          const newUser = await User.create({
-              firstName,
-              lastName,
+              fullName,
+              userName,          
               email,
               password:hashPassword,
               gender,
@@ -126,7 +123,8 @@ exports.signUp=async(req,res)=>{
         console.error(err.message);
         return res.status(500).json({
             success:false,
-            message:"signUp problem"
+            message:"signUp problem",
+           
         })
 
      }
