@@ -6,9 +6,10 @@ import PostCard from './PostCard';
    export default function PostList() {
 
     const [posts,setPosts] = useState([]);
+    
 
-    useEffect(()=>{
-          async function getMyAllPost()
+
+       async function getMyAllPost()
           {
 
             let token = localStorage.getItem("token");
@@ -24,6 +25,7 @@ import PostCard from './PostCard';
                     let result = await response.data;
                   toast.success(result?.message);
                  setPosts(response?.data?.post);
+                 
 
 
             }catch(err){
@@ -38,13 +40,16 @@ import PostCard from './PostCard';
 
           }
 
+    useEffect(()=>{
+       
+
           getMyAllPost();
     },[]);
      return (
        <div>
                {
                 
-                  posts.map((post,index)=>(<PostCard key={post._id} post={post} />))
+                 posts.length === 0 ?(<p>No Post</p>):(posts.map((post)=>(<PostCard key={post._id} post={post} />))) 
                }
        </div>
      )

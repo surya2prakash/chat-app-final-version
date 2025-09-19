@@ -46,7 +46,7 @@ exports.likePost = async(req,res) =>{
 
           //check kro kahin user ne es post ko already like to nhi kiya hai --->
 
-          const isAlreadyLike = await Post.findone({_id:postId,likeId:userId});
+          const isAlreadyLike = await Post.findOne({_id:postId,likeId:userId});
 
           if(isAlreadyLike)
           {
@@ -189,7 +189,7 @@ exports.getLikeandUnlike = async(req,res)=>{
             });
           };
 
-          const alreadylike =  await Like.findOne({postId,likePostUserId:userId});
+          const alreadylike =  await Post.findOne({_id:postId,likeId:userId});
            
 
         

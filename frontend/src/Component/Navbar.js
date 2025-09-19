@@ -6,7 +6,7 @@ import styles from './Navbar.module.css'
 import { toast } from 'react-toastify';
 import SearchBar from './OtherComponents/SearchBar';
   
-  export default function Navbar() {
+  export default function Navbar({imgProfile}) {
 
 
    const navigate = useNavigate();
@@ -29,7 +29,7 @@ import SearchBar from './OtherComponents/SearchBar';
                  <Link to='/profile'>
                     <i className="fas fa-home text-2xl text-black"></i>
                  </Link>
-                 <Link to='chat'>
+                 <Link to='chats'>
                      <i className="fab fa-facebook-messenger text-2xl text-black"></i>
                  </Link>
                  <Link to='post'>
@@ -44,7 +44,7 @@ import SearchBar from './OtherComponents/SearchBar';
            
            {/* profile --------> */}
           <div className={styles.myProfile}>
-               <img src='' alt='no' />
+               <img src={imgProfile} alt='no' />
                 <Link to='myprofile'>
                    <i className="fas fa-user-circle w-5"></i> Profile
                 </Link>

@@ -1,0 +1,23 @@
+
+.navmain{
+      width: 100vh;
+      background-color: white;
+      border: 1px solid black;
+      
+}
+
+.navContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+
+}
+
+.otherIcons{
+     display: flex;
+     flex-direction: row;
+     justify-content: space-around;
+}
+

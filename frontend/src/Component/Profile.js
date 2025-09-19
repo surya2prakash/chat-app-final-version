@@ -1,24 +1,22 @@
-  import React  from 'react'
+import React  from 'react'
 import Navbar from './Navbar'
 import { Outlet , useLocation } from 'react-router-dom'
+import ProfileFeed from './ProfileFeed';
 //import ProfileFeed from './ProfileFeed'
-import PostList from './Post/PostList';
+
   
-  export default function Profile() {
+  export default function Profile({profileImage}) {
 
     const location = useLocation();
 
    const isBaseProfile = location.pathname === '/profile'
     return (
       <div >
-            <Navbar/>
+            <Navbar imgProfile={profileImage}/>
             {
-               isBaseProfile ? (<PostList/>) : (<Outlet/>)
+               isBaseProfile ? (<ProfileFeed/>) : (<Outlet/>)
             }
-            
-{/*             
-            <ProfileFeed/> */}
-            
+           
       </div>
     )
   }

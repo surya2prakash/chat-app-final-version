@@ -25,7 +25,9 @@ function changeHandler(event){
        
       selectFile.current.click();
      
-  }
+  };
+
+
 
   function captionChange(event)
   {
@@ -38,8 +40,7 @@ function changeHandler(event){
       sendPhoto();
   }
 
- 
-  
+
     
   const token = localStorage.getItem("token");
   

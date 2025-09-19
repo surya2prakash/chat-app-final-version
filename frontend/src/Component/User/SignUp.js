@@ -2,6 +2,8 @@ import React, {  useState } from 'react'
 import styles from './signUp.module.css'
 import { toast } from 'react-toastify';
 
+import {useNavigate} from 'react-router-dom'
+
 import axios from 'axios'
 
 export default function SignUp() {
@@ -19,7 +21,7 @@ export default function SignUp() {
 
   const [isLoading,setLoading] = useState(false);
 
-  
+    const navigate = useNavigate();
 
 
 function changeHandler (event){
@@ -62,10 +64,12 @@ async function signUpForm(data) {
                                     userName:""
                                     
                                     });
+
+                                    navigate("/")
   }catch(err){
-  if (err.result) {
+  if (err?.response?.data) {
      //axios --> response ka error
-    toast.error(err.result.message); 
+    toast.error(err?.response?.data?.message); 
   } else {
      //axios ka error --->
     toast.error("Something went wrong!");
